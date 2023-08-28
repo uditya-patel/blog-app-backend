@@ -3,6 +3,7 @@ package com.blogApp.service;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -23,6 +24,14 @@ public class CommentServiceImpl implements CommentService {
 	
 	@Autowired
 	private PostRepository postRepository;
+	
+	private ModelMapper mapper;
+	
+	public CommentServiceImpl(CommentRepository commentRepository, PostRepository postRepository, ModelMapper mapper) {
+		this.commentRepository = commentRepository;
+		this.postRepository = postRepository;
+		this.mapper = mapper;
+	}
 
 	@Override
 	public CommentDto createComment(Long postId, CommentDto commentDto) {
@@ -41,12 +50,14 @@ public class CommentServiceImpl implements CommentService {
 	
 	private CommentDto mapToDto(Comment comment) {
 		
-		CommentDto commentDto = new CommentDto();
+		CommentDto commentDto = mapper.map(comment, CommentDto.class);
 		
-		commentDto.setId(comment.getId());
-		commentDto.setName(comment.getName());
-		commentDto.setEmail(comment.getEmail());
-		commentDto.setBody(comment.getBody());
+//		CommentDto commentDto = new CommentDto();
+//		
+//		commentDto.setId(comment.getId());
+//		commentDto.setName(comment.getName());
+//		commentDto.setEmail(comment.getEmail());
+//		commentDto.setBody(comment.getBody());
 		
 		return commentDto;
 		
@@ -54,12 +65,15 @@ public class CommentServiceImpl implements CommentService {
 	}
 	
 	private Comment mapToEntity(CommentDto commentDto) {
-		Comment comment = new Comment();
 		
-		comment.setId(commentDto.getId());
-		comment.setBody(commentDto.getBody());
-		comment.setEmail(commentDto.getEmail());
-		comment.setName(commentDto.getName());
+		Comment comment = mapper.map(commentDto, Comment.class);
+		
+//		Comment comment = new Comment();
+//		
+//		comment.setId(commentDto.getId());
+//		comment.setBody(commentDto.getBody());
+//		comment.setEmail(commentDto.getEmail());
+//		comment.setName(commentDto.getName());
 		
 		return comment;
 		
@@ -70,6 +84,7 @@ public class CommentServiceImpl implements CommentService {
 	public List<CommentDto> getCommentsByPostId(Long postId) {
 		
 		List<Comment> comments = commentRepository.findByPostId(postId);
+		System.out.println(comments);
 		
 		return comments.stream().map(comment -> mapToDto(comment)).collect(Collectors.toList());
 		

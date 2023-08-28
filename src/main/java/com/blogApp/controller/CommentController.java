@@ -11,19 +11,23 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.blogApp.dto.CommentDto;
 import com.blogApp.service.CommentService;
 
+import jakarta.validation.Valid;
+
 @RestController
+@RequestMapping("api/comment")
 public class CommentController {
 	
 	@Autowired
 	private CommentService commentService;
 	
 	@PostMapping("/{postId}/addComment")
-	public ResponseEntity<CommentDto> createComment(@PathVariable(value = "postId") Long postId, @RequestBody CommentDto commentDto) {
+	public ResponseEntity<CommentDto> createComment(@PathVariable(value = "postId") Long postId, @Valid @RequestBody CommentDto commentDto) {
 		
 		return new ResponseEntity<>(commentService.createComment(postId, commentDto), HttpStatus.CREATED);
 	}
@@ -35,14 +39,14 @@ public class CommentController {
 		
 	}
 	
-	@GetMapping("/comment/{commentId}/post/{postId}")
+	@GetMapping("/{commentId}/post/{postId}")
 	public ResponseEntity<CommentDto> getCommentById(@PathVariable(value = "commentId") Long commentId, @PathVariable(value = "postId") Long postId) {
 		
 		return new ResponseEntity<>(commentService.getCommentById(commentId, postId), HttpStatus.OK);
 	}
 	
 	@PutMapping("/updateComment/{commentId}/post/{postId}")
-	public ResponseEntity<CommentDto> updateComment(@PathVariable(value = "postId") Long postId, @PathVariable(value = "commentId") Long commentId, @RequestBody CommentDto newComment) {
+	public ResponseEntity<CommentDto> updateComment(@PathVariable(value = "postId") Long postId, @PathVariable(value = "commentId") Long commentId, @Valid @RequestBody CommentDto newComment) {
 		
 		return new ResponseEntity<>(commentService.updateComment(postId, commentId, newComment), HttpStatus.OK);
 		
