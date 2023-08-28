@@ -18,6 +18,15 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableMethodSecurity
 public class SecurityConfig {
 	
+	private UserDetailsService userDetailsService;
+	
+	
+	public SecurityConfig(UserDetailsService userDetailsService) {
+		super();
+		this.userDetailsService = userDetailsService;
+	}
+
+
 	@Bean
 	public static PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
@@ -36,26 +45,28 @@ public class SecurityConfig {
 		
 		return http.build();
 	}
+
 	
-	@Bean
-	public UserDetailsService userDetailsService() {
-		
-		UserDetails uditya = User.builder()
-				.username("uditya")
-				.password(passwordEncoder().encode("uditya"))
-				.roles("USER")
-				.build();
-		
-		
-		UserDetails admin = User.builder()
-				.username("admin")
-				.password(passwordEncoder().encode("admin"))
-				.roles("ADMIN")
-				.build();
-		
-		return new InMemoryUserDetailsManager(uditya, admin);
-				
-	}
+	// INMEMORY AUTHENTICATION
+//	@Bean
+//	public UserDetailsService userDetailsService() {
+//		
+//		UserDetails uditya = User.builder()
+//				.username("uditya")
+//				.password(passwordEncoder().encode("uditya"))
+//				.roles("USER")
+//				.build();
+//		
+//		
+//		UserDetails admin = User.builder()
+//				.username("admin")
+//				.password(passwordEncoder().encode("admin"))
+//				.roles("ADMIN")
+//				.build();
+//		
+//		return new InMemoryUserDetailsManager(uditya, admin);
+//				
+//	}
 	
 
 }
