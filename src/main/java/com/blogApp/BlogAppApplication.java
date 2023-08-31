@@ -16,17 +16,17 @@ public class BlogAppApplication {
 		return new ModelMapper();
 	}
 	
-	@Bean
-	public AuthenticationManager authenticationManager() {
-		return new AuthenticationManager() {
-			
-			@Override
-			public Authentication authenticate(Authentication authentication) throws AuthenticationException {
-				// TODO Auto-generated method stub
-				return null;
-			}
-		};
-	}
+//	@Bean
+//	public AuthenticationManager authenticationManager() {
+//		return new AuthenticationManager() {
+//			
+//			@Override
+//			public Authentication authenticate(Authentication authentication) throws AuthenticationException {
+//				// TODO Auto-generated method stub
+//				return null;
+//			}
+//		};
+//	}
 
 	public static void main(String[] args) {
 		SpringApplication.run(BlogAppApplication.class, args);

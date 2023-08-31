@@ -18,6 +18,7 @@ import com.blogApp.entity.User;
 import com.blogApp.exception.BlogAPIException;
 import com.blogApp.repository.RoleRepository;
 import com.blogApp.repository.UserRepository;
+import com.blogApp.security.JwtTokenProvider;
 
 @Service
 public class AuthServiceImpl implements AuthService {
@@ -30,27 +31,33 @@ public class AuthServiceImpl implements AuthService {
 	private  UserRepository userRepository;
 	
 	private RoleRepository roleRepository;
-
+	
+	private JwtTokenProvider jwtTokenProvider;
 
 	public AuthServiceImpl(AuthenticationManager authenticationManager, PasswordEncoder passwordEncoder,
-			UserRepository userRepository, RoleRepository roleRepository) {
+			UserRepository userRepository, RoleRepository roleRepository, JwtTokenProvider jwtTokenProvider) {
 		super();
 		this.authenticationManager = authenticationManager;
 		this.passwordEncoder = passwordEncoder;
 		this.userRepository = userRepository;
 		this.roleRepository = roleRepository;
+		this.jwtTokenProvider = jwtTokenProvider;
 	}
-
-
 
 	@Override
 	public String login(LoginDto loginDto) {
 		
+		System.out.println(loginDto);
+		
 		Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginDto.getUserNameOrEmail(), loginDto.getPassword()));
+		
+		System.out.println("authserviceImpl " + authentication);
 		
 		SecurityContextHolder.getContext().setAuthentication(authentication);
 		
-		return "User Logged-In successfully";
+		String token = jwtTokenProvider.generateToken(authentication);
+		
+		return token;
 		
 		
 		

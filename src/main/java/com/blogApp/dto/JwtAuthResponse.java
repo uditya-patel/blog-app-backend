@@ -1,7 +1,6 @@
 package com.blogApp.dto;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -10,11 +9,10 @@ import lombok.Setter;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
-public class LoginDto {
+public class JwtAuthResponse {
 	
-	private String userNameOrEmail;
+	private String acessToken;
 	
-	private String password;
+	private String tokenType = "Bearer";
 
 }
