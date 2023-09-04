@@ -1,5 +1,7 @@
 package com.blogApp.service;
 
+import java.util.List;
+
 import com.blogApp.dto.PostDto;
 import com.blogApp.dto.PostResponse;
 
@@ -14,5 +16,7 @@ public interface PostService {
 	PostDto updatePost(PostDto postDto, Long id);
 
 	void deletePost(Long id);
+
+	List<PostDto> getPostsByCategory(Long categoryId);
 
 }
