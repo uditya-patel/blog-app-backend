@@ -16,11 +16,17 @@ import com.blogApp.repository.CategoryRepository;
 @Service
 public class CategoryServiceImpl implements CategoryService {
 	
-	@Autowired
 	private CategoryRepository categoryRepository;
 	
-	@Autowired
 	private ModelMapper mapper;
+	
+	
+
+	public CategoryServiceImpl(CategoryRepository categoryRepository, ModelMapper mapper) {
+		super();
+		this.categoryRepository = categoryRepository;
+		this.mapper = mapper;
+	}
 
 	@Override
 	public CategoryDto addCategory(CategoryDto categoryDto) {
